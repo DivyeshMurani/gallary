@@ -51,9 +51,7 @@ public class ImagesLoader {
     }
 
     public List<String> getAllFolder(Context context) {
-
         List<String> list = new ArrayList<>();
-
         final String[] projection = {
                 MediaStore.Images.Media.BUCKET_ID,
                 MediaStore.Images.Media.BUCKET_DISPLAY_NAME
@@ -99,9 +97,7 @@ public class ImagesLoader {
             int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);//get column index
             list.add(imagecursor.getString(dataColumnIndex));//get Image from column index
         }
-
         return list;
-
     }
 
     private void loadWithRX() {

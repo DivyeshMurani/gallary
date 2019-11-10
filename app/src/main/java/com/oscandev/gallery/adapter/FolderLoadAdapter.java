@@ -34,11 +34,9 @@ public class FolderLoadAdapter extends BaseRecyclerViewAdapter {
         holder.root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (clcik!=null) {
                     clcik.addOnClick(i,list.get(i));
                 }
-
             }
         });
     }

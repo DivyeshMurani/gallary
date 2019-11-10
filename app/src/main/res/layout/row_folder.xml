@@ -1,29 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:id="@+id/root"
+    android:paddingTop="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     >
 
-    <ImageView
-        android:id="@+id/img_folder"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_weight="1"
-        android:src="@mipmap/ic_launcher_round" />
-
-    <TextView
-        android:id="@+id/txt_folder_name"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="10dp"
-        android:layout_weight="1"
-        android:padding="5dp"
-        android:textColor="#000000"
-        android:textSize="15sp"
-        tool:text="Folder name" />
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/img_folder"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:tint="@color/yellow"
+            android:adjustViewBounds="true"
+             android:src="@drawable/icon_folder" />
+        <TextView
+            android:id="@+id/txt_folder_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/img_folder"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            tool:text="Folder name" />
+        <View
+            android:id="@+id/view_line"
+            android:layout_toRightOf="@+id/img_folder"
+            android:layout_below="@+id/img_folder"
+            android:background="@color/lighter_gray"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+    </RelativeLayout>
 </LinearLayout>

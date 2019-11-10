@@ -13,8 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.oscandev.gallery.adapter.BaseRecyclerViewAdapter;
-import com.oscandev.gallery.adapter.FolderLoadAdapter;
 import com.oscandev.gallery.adapter.ItemShowAdapter;
 import com.oscandev.gallery.helper.ImagesLoader;
 
@@ -51,6 +49,7 @@ public class ListItemActivity extends AppCompatActivity {
     private void initToolbar() {
         toolbar.setTitle(folder_name);
         toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(toolbar);
     }
 

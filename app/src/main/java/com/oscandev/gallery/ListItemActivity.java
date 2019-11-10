@@ -67,7 +67,7 @@ public class ListItemActivity extends AppCompatActivity {
 
         adapter = new ItemShowAdapter(list);
         recyclerView.setHasFixedSize(false);
-        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
+//        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
 //        recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),3));
         recyclerView.setAdapter(adapter);

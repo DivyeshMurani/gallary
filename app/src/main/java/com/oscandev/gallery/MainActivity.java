@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.recyclerView);
 
-
 //        call methods
         initRecyclerView();
         initToolbar();
@@ -61,16 +61,19 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
-
         adapter.addOnClickLis(new BaseRecyclerViewAdapter.OnClickLis() {
             @Override
             public void addOnClick(int position, String folder_name) {
+
+//                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this,recyclerView);
                 Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
                 intent.putExtra("folder_name", folder_name);
                 startActivity(intent);
+//                startActivity(intent,optionsCompat.toBundle());
             }
         });
     }
+
     private void loadFiles() {
         String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -99,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
     private void imgLoad() {
         list.addAll(new ImagesLoader().getAllFolder(getApplicationContext()));
         adapter.notifyDataSetChanged();

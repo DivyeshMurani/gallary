@@ -7,14 +7,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.oscandev.gallery.adapter.ItemShowAdapter;
 import com.oscandev.gallery.helper.ImagesLoader;
+import com.oscandev.gallery.util.SpacesItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +54,22 @@ public class ListItemActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void initRecyclerView() {
 
         adapter = new ItemShowAdapter(list);
         recyclerView.setHasFixedSize(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
+//        recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),3));
         recyclerView.setAdapter(adapter);
     }
 

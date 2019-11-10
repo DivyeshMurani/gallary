@@ -26,7 +26,6 @@ public class ImagesLoader {
             MediaStore.Images.Media.DISPLAY_NAME
     };//get all columns of type images
     final String orderBy = MediaStore.Images.Media.DATE_TAKEN;//order data by date
-
     public void build(Context context) {
         Cursor imagecursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
@@ -85,10 +84,7 @@ public class ImagesLoader {
                 list.add(bucket);
             } while (cursor.moveToNext());
         }
-
         return list;
-
-
     }
 
     public List<String> getFolderItem(Context context, String folderName) {

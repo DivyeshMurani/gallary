@@ -6,29 +6,21 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
-import com.oscandev.gallery.adapter.BaseRecyclerViewAdapter;
-import com.oscandev.gallery.adapter.FolderLoadAdapter;
-import com.oscandev.gallery.helper.ImagesLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private FolderLoadAdapter adapter;
     private List<String> list = new ArrayList<>();
 
     @Override
@@ -36,7 +28,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        init();
+
+        startActivity(new Intent(MainActivity.this,
+                com.oscandev.opengallery.MainActivity.class));
+
+
+//        init();
     }
 
     private void init() {
@@ -44,9 +41,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
 
 //        call methods
-        initRecyclerView();
-        initToolbar();
-        loadFiles();
+//        initRecyclerView();
+//        initToolbar();
+
+
+
     }
 
     private void initToolbar() {
@@ -55,39 +54,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    private void initRecyclerView() {
 
-        adapter = new FolderLoadAdapter(list);
-        recyclerView.setHasFixedSize(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setAdapter(adapter);
-        adapter.addOnClickLis(new BaseRecyclerViewAdapter.OnClickLis() {
-            @Override
-            public void addOnClick(int position, String folder_name) {
 
-//                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this,recyclerView);
-                Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
-                intent.putExtra("folder_name", folder_name);
-                startActivity(intent);
-//                startActivity(intent,optionsCompat.toBundle());
-            }
-        });
-    }
 
-    private void loadFiles() {
-        String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkCallingPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    &&
-                    checkCallingPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(permission, 100);
-            } else {
-                imgLoad();
-            }
-        } else {
-            imgLoad();
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -95,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 100:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    imgLoad();
+
                 } else {
                     Toast.makeText(this, "Permission is not granted", Toast.LENGTH_SHORT).show();
                 }
@@ -103,8 +72,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void imgLoad() {
-        list.addAll(new ImagesLoader().getAllFolder(getApplicationContext()));
-        adapter.notifyDataSetChanged();
-    }
+
 }

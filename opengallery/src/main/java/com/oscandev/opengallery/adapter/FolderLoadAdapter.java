@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.oscandev.gallery.R;
+import com.oscandev.opengallery.R;
 
 import java.util.List;
 

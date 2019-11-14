@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.oscandev.gallery.R;
+import com.oscandev.opengallery.R;
 
 import java.io.File;
 import java.util.List;

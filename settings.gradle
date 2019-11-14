@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':opengallery'
 rootProject.name='Gallery'

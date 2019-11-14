@@ -9,7 +9,7 @@ public class OpenGalleryBuilder {
     private Context context;
 
     public OpenGalleryBuilder(Context context) {
-        this.context = context;
+        this.context=context;
     }
 
     public void build() {

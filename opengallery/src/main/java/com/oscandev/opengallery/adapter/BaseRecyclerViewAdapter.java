@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 
 public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter {
 
-    protected OnClickLis clcik;
+    OnClickLis clcik;
 
     public void addOnClickLis(OnClickLis onClickLis) {
         this.clcik= onClickLis;

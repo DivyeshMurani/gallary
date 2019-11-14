@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 
+import com.oscandev.opengallery.OpenGalleryBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        startActivity(new Intent(MainActivity.this,
-                com.oscandev.opengallery.MainActivity.class));
+        new OpenGalleryBuilder(getApplicationContext()).build();
 
 
 //        init();
@@ -45,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
 //        initToolbar();
 
 
-
     }
 
     private void initToolbar() {
@@ -53,9 +53,6 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
     }
-
-
-
 
 
     @Override

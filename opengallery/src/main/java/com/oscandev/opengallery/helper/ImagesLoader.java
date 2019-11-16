@@ -18,7 +18,6 @@ import io.reactivex.functions.Function;
 
 public class ImagesLoader {
 
-    ArrayList<String> galleryImageUrls;
 
     final String[] columns = {
             MediaStore.Images.Media.DATA,
@@ -32,26 +31,16 @@ public class ImagesLoader {
         Cursor imagecursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
                 null, orderBy + " DESC");//get all data in Cursor by sorting in DESC order
-        galleryImageUrls = new ArrayList<String>();
-
-        Set<String> folderName = new HashSet<>();
-        Map<String, String> map = new HashMap<>();
-
 
         for (int i = 0; i < imagecursor.getCount(); i++) {
             imagecursor.moveToPosition(i);
             int displayNameId = imagecursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
 
             int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);//get column index
-            galleryImageUrls.add(imagecursor.getString(dataColumnIndex));//get Image from column index
             String strFolderName = imagecursor.getString(displayNameId);
-            folderName.add(strFolderName);
 
-            map.put(strFolderName, imagecursor.getString(dataColumnIndex));
+
         }
-        Map<String, List<String>> listMap = new HashMap<>();
-        Log.d("TAG_", "Map Size: " + map.size());
-
     }
 
     public List<String> getAllFolder(Context context) {
@@ -60,6 +49,9 @@ public class ImagesLoader {
                 MediaStore.Images.Media.BUCKET_ID,
                 MediaStore.Images.Media.BUCKET_DISPLAY_NAME
         };
+
+
+        list.add("All");
 
         String BUCKET_GROUP_BY =
                 "1) GROUP BY 1,(2";
@@ -116,6 +108,25 @@ public class ImagesLoader {
             imagecursor.moveToPosition(i);
             int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);//get column index
             list.add(new GalleryContent(imagecursor.getString(dataColumnIndex), false));
+        }
+        return list;
+    }
+
+    public ArrayList<GalleryContent> getAllImages(Context context) {
+        ArrayList<GalleryContent> list = new ArrayList<>();
+        Cursor imagecursor = context.getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
+                null, orderBy + " DESC");
+
+        for (int i = 0; i < imagecursor.getCount(); i++) {
+            imagecursor.moveToPosition(i);
+            int displayNameId = imagecursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+            String strFolderName = imagecursor.getString(displayNameId);
+
+            int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);//get column index
+            String dataColumn = imagecursor.getString(dataColumnIndex);
+            list.add(new GalleryContent(dataColumn, false));
+
         }
         return list;
     }

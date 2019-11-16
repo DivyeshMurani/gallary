@@ -73,6 +73,7 @@ public class ListItemFragment extends BaseFragment {
         folder_name = bundle.getString("folderName");
         activity.setToolbarTitle(folder_name);
 
+
         initRecyclerView();
 
         rl_done.setOnClickListener(new View.OnClickListener() {
@@ -92,11 +93,13 @@ public class ListItemFragment extends BaseFragment {
         });
 
         loadFiles();
+
     }
 
     private void initRecyclerView() {
         adapter = new ItemShowAdapter(list, "");
         recyclerView.setHasFixedSize(false);
+
 //        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
 //        recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
 
@@ -169,9 +172,17 @@ public class ListItemFragment extends BaseFragment {
     }
 
     private void ImageLoad() {
-        list.addAll(new ImagesLoader().getFolderItemContent(activity, folder_name));
-        adapter.notifyDataSetChanged();
+        if (folder_name.equals("All")) {
+            list.addAll(new ImagesLoader().getAllImages(activity));
+        } else {
+            list.addAll(new ImagesLoader().getFolderItemContent(activity, folder_name));
+        }
+
+//        list.addAll(new ImagesLoader().getFolderItemContent(activity, folder_name));
+//        adapter.notifyDataSetChanged();
+
         Log.d("TAG_", "list size: " + list.size());
+        Log.d("TAG_", "list size: " + list.get(0).getImageFullPth());
     }
 
 

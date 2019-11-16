@@ -68,8 +68,8 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void addOnClick(int position, String folder_name) {
 
-                Intent intent = new Intent(activity, ListItemActivity.class);
-                intent.putExtra("folder_name", folder_name);
+//                Intent intent = new Intent(activity, ListItemActivity.class);
+//                intent.putExtra("folder_name", folder_name);
 //                startActivity(intent);
 
                 activity.getSupportFragmentManager()

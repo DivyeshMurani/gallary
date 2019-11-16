@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 public class OpenGalleryBuilder {
-
     private Context context;
-
     public OpenGalleryBuilder(Context context) {
         this.context = context;
     }

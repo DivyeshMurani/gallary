@@ -9,7 +9,7 @@ public class OpenGalleryBuilder {
     private Context context;
 
     public OpenGalleryBuilder(Context context) {
-        this.context=context;
+        this.context = context;
     }
 
     public void build() {
@@ -18,9 +18,8 @@ public class OpenGalleryBuilder {
             return;
         }
 
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, MainContentActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
-
     }
 }

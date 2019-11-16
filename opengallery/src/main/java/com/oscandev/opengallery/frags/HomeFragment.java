@@ -1,18 +1,26 @@
-package com.oscandev.opengallery;
+package com.oscandev.opengallery.frags;
 
 import android.Manifest;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.oscandev.opengallery.ListItemActivity;
+
+import com.oscandev.opengallery.R;
 import com.oscandev.opengallery.adapter.BaseRecyclerViewAdapter;
 import com.oscandev.opengallery.adapter.FolderLoadAdapter;
 import com.oscandev.opengallery.helper.ImagesLoader;
@@ -20,52 +28,56 @@ import com.oscandev.opengallery.helper.ImagesLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeFragment extends BaseFragment {
 
-    private Toolbar toolbar;
     private RecyclerView recyclerView;
     private FolderLoadAdapter adapter;
     private List<String> list = new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        init();
     }
 
-    private void init() {
-        toolbar = findViewById(R.id.toolbar);
-        recyclerView = findViewById(R.id.recyclerView);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        return LayoutInflater.from(getContext()).inflate(R.layout.fragment_home, container, false);
+    }
 
-//        call methods
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        recyclerView = view.findViewById(R.id.recyclerView);
+
         initRecyclerView();
-        initToolbar();
         loadFiles();
     }
 
-    private void initToolbar() {
-        toolbar.setTitle("Gallery");
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
-    }
 
     private void initRecyclerView() {
 
         adapter = new FolderLoadAdapter(list);
         recyclerView.setHasFixedSize(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         recyclerView.setAdapter(adapter);
         adapter.addOnClickLis(new BaseRecyclerViewAdapter.OnClickLis() {
             @Override
             public void addOnClick(int position, String folder_name) {
 
-//                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this,recyclerView);
-                Intent intent = new Intent(getApplicationContext(), ListItemActivity.class);
+                Intent intent = new Intent(activity, ListItemActivity.class);
                 intent.putExtra("folder_name", folder_name);
-                startActivity(intent);
-//                startActivity(intent,optionsCompat.toBundle());
+//                startActivity(intent);
+
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack("")
+                        .add(R.id.content_frame, ListItemFragment.getInstance(folder_name))
+                        .commit();
+
             }
         });
     }
@@ -73,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
     private void loadFiles() {
         String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkCallingPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                     &&
-                    checkCallingPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(permission, 100);
             } else {
                 imgLoad();
@@ -93,14 +105,14 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     imgLoad();
                 } else {
-                    Toast.makeText(this, "Permission is not granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Permission is not granted", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
 
     private void imgLoad() {
-        list.addAll(new ImagesLoader().getAllFolder(getApplicationContext()));
+        list.addAll(new ImagesLoader().getAllFolder(activity));
         adapter.notifyDataSetChanged();
     }
 }

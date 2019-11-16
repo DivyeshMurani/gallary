@@ -1,10 +1,7 @@
 package com.oscandev.gallery;
 
-import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         new OpenGalleryBuilder(getApplicationContext()).build();
 
 
-//        init();
+        init();
     }
 
     private void init() {
@@ -43,13 +40,13 @@ public class MainActivity extends AppCompatActivity {
 
 //        call methods
 //        initRecyclerView();
-//        initToolbar();
+        initToolbar();
 
 
     }
 
     private void initToolbar() {
-        toolbar.setTitle("Gallery");
+        toolbar.setTitle("MainActivity");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
     }

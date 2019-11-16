@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.oscandev.opengallery.MainActivity"/>
+        <activity android:name="com.oscandev.opengallery.MainContentActivity"/>
         <activity android:name="com.oscandev.opengallery.ListItemActivity"/>
 
 

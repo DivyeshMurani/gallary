@@ -1,19 +1,27 @@
 package com.oscandev.gallery;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.ActionMode;
+import android.view.View;
 import android.widget.Toast;
 
 
+import com.oscandev.opengallery.MainContentActivity;
 import com.oscandev.opengallery.OpenGalleryBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.oscandev.opengallery.OpenGalleryBuilder.OPEN_REQUEST_CODE;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,8 +36,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        new OpenGalleryBuilder(getApplicationContext()).build();
+        new OpenGalleryBuilder(MainActivity.this).build();
 
+
+        findViewById(R.id.btn_open).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new OpenGalleryBuilder(MainActivity.this).build();
+
+            }
+        });
 
         init();
     }
@@ -49,6 +65,26 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("MainActivity");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (OPEN_REQUEST_CODE == requestCode && data != null) {
+
+            ArrayList<String> list = (ArrayList<String>) data.getSerializableExtra("value");
+
+            Toast.makeText(this, "Size: " + list.size(), Toast.LENGTH_SHORT).show();
+
+
+            for (String path :
+                    list) {
+                Log.d("TAG_", "Path: " + path);
+            }
+        }
     }
 
 

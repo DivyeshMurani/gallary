@@ -40,7 +40,6 @@ public class ListItemFragment extends BaseFragment {
     private List<GalleryContent> list = new ArrayList<>();
     private String folder_name = "";
     private ArrayList<String> selectedList = new ArrayList<>();
-    private RelativeLayout rl_done;
     private LinearLayout ll_bottom_info;
     private TextView txt_select_count;
 
@@ -63,7 +62,6 @@ public class ListItemFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recyclerView);
-        rl_done = view.findViewById(R.id.rl_done);
         ll_bottom_info = view.findViewById(R.id.ll_bottom_info);
         txt_select_count = view.findViewById(R.id.txt_select_count);
 
@@ -76,7 +74,7 @@ public class ListItemFragment extends BaseFragment {
 
         initRecyclerView();
 
-        rl_done.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.rl_done).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 for (String name : selectedList) {
@@ -86,14 +84,15 @@ public class ListItemFragment extends BaseFragment {
                 if (selectedList.size() > 0) {
                     Intent intent = new Intent();
                     intent.putExtra("value", selectedList);
-                    activity.setResult(Activity.RESULT_OK, intent);
-                    activity.finish();
+//                    activity.setResult(Activity.RESULT_OK, intent);
+                    getActivity().setResult(Activity.RESULT_OK, intent);
+                    getActivity().finish();
+
+//                    activity.finish();
                 }
             }
         });
-
         loadFiles();
-
     }
 
     private void initRecyclerView() {
@@ -182,7 +181,7 @@ public class ListItemFragment extends BaseFragment {
 //        adapter.notifyDataSetChanged();
 
         Log.d("TAG_", "list size: " + list.size());
-        Log.d("TAG_", "list size: " + list.get(0).getImageFullPth());
+
     }
 
 

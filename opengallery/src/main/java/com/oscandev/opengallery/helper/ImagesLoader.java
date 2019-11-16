@@ -103,7 +103,7 @@ public class ImagesLoader {
         Cursor imagecursor = context.getContentResolver()
                 .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns,
                         MediaStore.Images.Media.DATA + " like ? ",
-                        new String[]{"%/" + folderName + "/%"}, null);
+                        new String[]{"%/" + folderName + "/%"}, orderBy + " DESC");
         for (int i = 0; i < imagecursor.getCount(); i++) {
             imagecursor.moveToPosition(i);
             int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);//get column index

@@ -22,6 +22,11 @@ public class OpenGalleryBuilder {
         return this;
     }
 
+    public OpenGalleryBuilder selectionLimit(int selectionLimit) {
+        Constance.SELECT_CONTENT_LIMIT = selectionLimit;
+        return this;
+    }
+
 
     public void build() {
 

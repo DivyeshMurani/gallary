@@ -24,7 +24,6 @@ import com.oscandev.opengallery.adapter.BaseRecyclerViewAdapter;
 import com.oscandev.opengallery.adapter.FolderLoadAdapter;
 import com.oscandev.opengallery.helper.Constance;
 import com.oscandev.opengallery.helper.ContentLoader;
-import com.oscandev.opengallery.helper.ImagesLoader;
 
 import java.util.ArrayList;
 import java.util.List;

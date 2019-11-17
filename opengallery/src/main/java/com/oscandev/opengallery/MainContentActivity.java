@@ -33,7 +33,7 @@ public class MainContentActivity extends AppCompatActivity {
     private FolderLoadAdapter adapter;
     private List<String> list = new ArrayList<>();
 
-    private int showContent = -1;
+    private int showContent = Constance.Key.IMAGE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +42,14 @@ public class MainContentActivity extends AppCompatActivity {
 
 
         init();
-        getAllDataFromIntent();
-    }
-
-    private void getAllDataFromIntent() {
-        Intent intent = getIntent();
-        showContent = intent.getIntExtra(Constance.Key.KEY_SHOW_CONTENT, Constance.Key.IMAGE);
     }
 
     private void init() {
         toolbar = findViewById(R.id.toolbar);
         initToolbar();
+
+        Intent intent = getIntent();
+        showContent = intent.getIntExtra(Constance.Key.KEY_SHOW_CONTENT, Constance.Key.IMAGE);
 
         getSupportFragmentManager()
                 .beginTransaction()

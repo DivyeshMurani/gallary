@@ -3,20 +3,22 @@ package com.oscandev.opengallery.helper;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import java.net.URI;
 import java.util.ArrayList;
 
 public class Constance {
+
+    public static int SELECT_CONTENT_LIMIT = 100;
 
     public static class Key {
         public static final String KEY_VIDEO = "video";
         public static final String KEY_IMAGE = "image";
         public static final String KEY_SIZE = "size";
+        public static final String KEY_LIMIT = "limit";
         public static final String KEY_SHOW_CONTENT = "show_content";
 
 
-        public static final int IMAGE = 1;
-        public static final int VIDEO = 2;
+        public static final int IMAGE = 0;
+        public static final int VIDEO = 1;
     }
 
     static class MediaStoreQuery {

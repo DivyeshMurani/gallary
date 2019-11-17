@@ -119,6 +119,14 @@ public class ListItemFragment extends BaseFragment {
                 GalleryContent content = list.get(position);
 
                 boolean isSelected = content.isSelectImage();
+
+
+                if (!isSelected && Constance.SELECT_CONTENT_LIMIT == selectedList.size()) {
+                    Toast.makeText(activity, "Must be select "+selectedList.size(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 if (isSelected) {
                     img_selected.setVisibility(View.GONE);
                     content.setSelectImage(false);
@@ -180,9 +188,9 @@ public class ListItemFragment extends BaseFragment {
 
     private void ImageLoad() {
         if (folder_name.equals("All")) {
-            list.addAll(new ContentLoader().getAllImages(activity,media));
+            list.addAll(new ContentLoader().getAllImages(activity, media));
         } else {
-            list.addAll(new ContentLoader().getFolderItemContent(activity, folder_name,media));
+            list.addAll(new ContentLoader().getFolderItemContent(activity, folder_name, media));
         }
 
 //        list.addAll(new ImagesLoader().getFolderItemContent(activity, folder_name));

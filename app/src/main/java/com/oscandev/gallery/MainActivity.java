@@ -11,8 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.oscandev.opengallery.OpenGalleryBuilder;
 import com.oscandev.opengallery.helper.Constance;
@@ -26,7 +26,6 @@ import static com.oscandev.opengallery.OpenGalleryBuilder.OPEN_REQUEST_CODE;
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private RecyclerView recyclerView;
     private List<String> list = new ArrayList<>();
 
     @Override
@@ -45,10 +44,11 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
-    private void openGallery(){
+    private void openGallery() {
 
         new OpenGalleryBuilder(MainActivity.this)
-                .showContent(Constance.Key.IMAGE)
+                .showContent(Constance.Key.VIDEO)
+                .selectionLimit(10)
                 .build();
 
 
@@ -56,13 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         toolbar = findViewById(R.id.toolbar);
-        recyclerView = findViewById(R.id.recyclerView);
-
-//        call methods
-//        initRecyclerView();
         initToolbar();
-
-
     }
 
     private void initToolbar() {
@@ -75,35 +69,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
         if (OPEN_REQUEST_CODE == requestCode && data != null) {
-
             ArrayList<String> list = (ArrayList<String>) data.getSerializableExtra("value");
 
-            Toast.makeText(this, "Size: " + list.size(), Toast.LENGTH_SHORT).show();
-
-
+            String link = "";
             for (String path :
                     list) {
+                link += "/n" + path;
+
                 Log.d("TAG_", "Path: " + path);
             }
+            ((TextView)findViewById(R.id.txt_list)).setText(link);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 100:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-
-                } else {
-                    Toast.makeText(this, "Permission is not granted", Toast.LENGTH_SHORT).show();
-                }
-                break;
+        if (requestCode == 100) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            } else {
+                Toast.makeText(this, "Permission is not granted", Toast.LENGTH_SHORT).show();
+            }
         }
     }
-
-
 }

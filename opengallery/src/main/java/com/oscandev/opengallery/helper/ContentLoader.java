@@ -12,7 +12,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 
-public class ImagesLoader {
+public class ContentLoader {
 
 
     //    final String[] columns = {
@@ -25,52 +25,44 @@ public class ImagesLoader {
 //
     final String orderBy = MediaStore.Images.Media.DATE_TAKEN;//order data by date
 
-//       public void build(Context context) {
-//
-//
-//        final String[] columns = {
-//                MediaStore.Images.Media.DATA,
-//                MediaStore.Images.Media._ID,
-//                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-//                MediaStore.Images.Media.DISPLAY_NAME
-//        };//get all columns of type images
-//
-//
-//        Cursor imagecursor = context.getContentResolver().query(
-//                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
-//                null, orderBy + " DESC");//get all data in Cursor by sorting in DESC order
-//
-//        for (int i = 0; i < imagecursor.getCount(); i++) {
-//            imagecursor.moveToPosition(i);
-//            int displayNameId = imagecursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
-//
-//            int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);//get column index
-//            String strFolderName = imagecursor.getString(displayNameId);
-//
-//
-//        }
-//    }
+    public void build(Context context) {
+        final String[] columns = {
+                MediaStore.Images.Media.DATA,
+                MediaStore.Images.Media._ID,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+                MediaStore.Images.Media.DISPLAY_NAME
+        };//get all columns of type images
 
 
+        Cursor imagecursor = context.getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
+                null, orderBy + " DESC");//get all data in Cursor by sorting in DESC order
+
+        for (int i = 0; i < imagecursor.getCount(); i++) {
+            imagecursor.moveToPosition(i);
+            int displayNameId = imagecursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+
+            int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);//get column index
+            String strFolderName = imagecursor.getString(displayNameId);
 
 
+        }
+    }
 
-    public List<String> getAllFolder(Context context) {
+
+    public List<String> getAllFolder(Context context, int media) {
         List<String> list = new ArrayList<>();
-        final String[] projection = {
-                MediaStore.Images.Media.BUCKET_ID,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME
-        };
-
+        final String[] projection = Constance.MediaStoreQuery.getMediaAllFolder(media);
 
         list.add("All");
 
         String BUCKET_GROUP_BY =
                 "1) GROUP BY 1,(2";
-        String BUCKET_ORDER_BY = MediaStore.Images.Media.BUCKET_DISPLAY_NAME;
+        String BUCKET_ORDER_BY = projection[1];
 //        String BUCKET_ORDER_BY = "MAX(datetaken) DESC";
+
         Cursor cursor = context.getContentResolver().query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                Constance.MediaStoreQuery.getUri(media),
                 projection,
                 BUCKET_GROUP_BY,
                 null,
@@ -79,64 +71,31 @@ public class ImagesLoader {
 
         if (cursor.moveToFirst()) {
             int bucketColumn = cursor.getColumnIndex(
-                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+                    projection[1]);
             int idColumn = cursor.getColumnIndex(
-                    MediaStore.Images.Media.BUCKET_ID);
+                    projection[0]);
             do {
                 // Get the field values
                 String bucket = cursor.getString(bucketColumn);
                 String id = cursor.getString(idColumn);
                 Log.d("TAG_", "Folder Name " + bucket);
-
                 list.add(bucket);
             } while (cursor.moveToNext());
         }
         return list;
     }
 
-    public List<String> getFolderItem(Context context, String folderName) {
-        List<String> list = new ArrayList<>();
 
-        final String[] columns = {
-                MediaStore.Images.Media.DATA,
-                MediaStore.Images.Media._ID,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-                MediaStore.Images.Media.DISPLAY_NAME
-        };//get all columns of type images
-
-
-        Cursor imagecursor = context.getContentResolver()
-                .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns,
-                        MediaStore.Images.Media.DATA + " like ? ",
-                        new String[]{"%/" + folderName + "/%"}, null);
-
-        for (int i = 0; i < imagecursor.getCount(); i++) {
-            imagecursor.moveToPosition(i);
-            int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);//get column index
-            list.add(imagecursor.getString(dataColumnIndex));//get Image from column index
-        }
-        return list;
-    }
-
-    public List<GalleryContent> getFolderItemContent(Context context, String folderName) {
-
-
-        final String[] columns = {
-                MediaStore.Images.Media.DATA,
-                MediaStore.Images.Media._ID,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-                MediaStore.Images.Media.DISPLAY_NAME
-        };//get all columns of type images
-
-
+    public List<GalleryContent> getFolderItemContent(Context context, String folderName, int media) {
+        final String[] columns = Constance.MediaStoreQuery.getMediaStore(media);
         ArrayList<GalleryContent> list = new ArrayList<>();
         Cursor imagecursor = context.getContentResolver()
-                .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns,
-                        MediaStore.Images.Media.DATA + " like ? ",
-                        new String[]{"%/" + folderName + "/%"}, orderBy + " DESC");
+                .query(Constance.MediaStoreQuery.getUri(media), columns,
+                        columns[0] + " like ? ",
+                        new String[]{"%/" + folderName + "/%"}, columns[4] + " DESC");
         for (int i = 0; i < imagecursor.getCount(); i++) {
             imagecursor.moveToPosition(i);
-            int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);//get column index
+            int dataColumnIndex = imagecursor.getColumnIndex(columns[0]);//get column index
             list.add(new GalleryContent(imagecursor.getString(dataColumnIndex), false));
         }
         return list;

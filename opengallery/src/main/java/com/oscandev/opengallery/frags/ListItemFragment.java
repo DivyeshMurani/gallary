@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 import com.oscandev.opengallery.R;
 import com.oscandev.opengallery.adapter.ItemShowAdapter;
+import com.oscandev.opengallery.helper.Constance;
+import com.oscandev.opengallery.helper.ContentLoader;
 import com.oscandev.opengallery.helper.GalleryContent;
 import com.oscandev.opengallery.helper.ImagesLoader;
 
@@ -43,9 +45,14 @@ public class ListItemFragment extends BaseFragment {
     private LinearLayout ll_bottom_info;
     private TextView txt_select_count;
 
-    public static ListItemFragment getInstance(String folderName) {
+
+    private int media = Constance.Key.IMAGE;
+
+
+    public static ListItemFragment getInstance(String folderName, int media) {
         Bundle bundle = new Bundle();
         bundle.putString("folderName", folderName);
+        bundle.putInt("media", media);
         ListItemFragment fragment = new ListItemFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -69,6 +76,7 @@ public class ListItemFragment extends BaseFragment {
 
         Bundle bundle = getArguments();
         folder_name = bundle.getString("folderName");
+        media = bundle.getInt("media", Constance.Key.IMAGE);
         activity.setToolbarTitle(folder_name);
 
 
@@ -172,13 +180,14 @@ public class ListItemFragment extends BaseFragment {
 
     private void ImageLoad() {
         if (folder_name.equals("All")) {
-            list.addAll(new ImagesLoader().getAllImages(activity));
+            list.addAll(new ContentLoader().getAllImages(activity,media));
         } else {
-            list.addAll(new ImagesLoader().getFolderItemContent(activity, folder_name));
+            list.addAll(new ContentLoader().getFolderItemContent(activity, folder_name,media));
         }
 
 //        list.addAll(new ImagesLoader().getFolderItemContent(activity, folder_name));
-//        adapter.notifyDataSetChanged();
+
+        adapter.notifyDataSetChanged();
 
         Log.d("TAG_", "list size: " + list.size());
 

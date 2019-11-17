@@ -20,6 +20,7 @@ import com.oscandev.opengallery.adapter.BaseRecyclerViewAdapter;
 import com.oscandev.opengallery.adapter.FolderLoadAdapter;
 import com.oscandev.opengallery.frags.HomeFragment;
 
+import com.oscandev.opengallery.helper.Constance;
 import com.oscandev.opengallery.helper.ImagesLoader;
 
 import java.util.ArrayList;
@@ -32,12 +33,21 @@ public class MainContentActivity extends AppCompatActivity {
     private FolderLoadAdapter adapter;
     private List<String> list = new ArrayList<>();
 
+    private int showContent = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_gallery);
 
+
         init();
+        getAllDataFromIntent();
+    }
+
+    private void getAllDataFromIntent() {
+        Intent intent = getIntent();
+        showContent = intent.getIntExtra(Constance.Key.KEY_SHOW_CONTENT, Constance.Key.IMAGE);
     }
 
     private void init() {
@@ -46,7 +56,7 @@ public class MainContentActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.content_frame, new HomeFragment())
+                .add(R.id.content_frame, HomeFragment.getInstance(showContent))
                 .commit();
 
     }
@@ -120,8 +130,6 @@ public class MainContentActivity extends AppCompatActivity {
         setToolbarTitle("Gallery");
         super.onBackPressed();
     }
-
-
 
 
 }

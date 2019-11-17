@@ -10,13 +10,12 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.View;
 import android.widget.Toast;
 
 
-import com.oscandev.opengallery.MainContentActivity;
 import com.oscandev.opengallery.OpenGalleryBuilder;
+import com.oscandev.opengallery.helper.Constance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,19 +34,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        new OpenGalleryBuilder(MainActivity.this).build();
-
-
         findViewById(R.id.btn_open).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new OpenGalleryBuilder(MainActivity.this).build();
-
+                openGallery();
             }
         });
+        openGallery();
 
         init();
+    }
+
+    private void openGallery(){
+
+        new OpenGalleryBuilder(MainActivity.this)
+                .showContent(Constance.Key.IMAGE)
+                .build();
+
+
     }
 
     private void init() {
@@ -86,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

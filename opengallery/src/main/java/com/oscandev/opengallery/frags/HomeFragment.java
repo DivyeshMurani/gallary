@@ -18,11 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.oscandev.opengallery.ListItemActivity;
 
 import com.oscandev.opengallery.R;
 import com.oscandev.opengallery.adapter.BaseRecyclerViewAdapter;
 import com.oscandev.opengallery.adapter.FolderLoadAdapter;
+import com.oscandev.opengallery.helper.Constance;
+import com.oscandev.opengallery.helper.ContentLoader;
 import com.oscandev.opengallery.helper.ImagesLoader;
 
 import java.util.ArrayList;
@@ -33,6 +34,17 @@ public class HomeFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private FolderLoadAdapter adapter;
     private List<String> list = new ArrayList<>();
+
+    private int media = Constance.Key.IMAGE;
+
+    public static HomeFragment getInstance(int showContent) {
+        HomeFragment fragment = new HomeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("media", showContent);
+        fragment.setArguments(bundle);
+        return fragment;
+
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +65,9 @@ public class HomeFragment extends BaseFragment {
 
         recyclerView = view.findViewById(R.id.recyclerView);
 
+        Bundle bundle = getArguments();
+        media = bundle.getInt("media", Constance.Key.IMAGE);
+
         initRecyclerView();
         loadFiles();
     }
@@ -68,14 +83,10 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void addOnClick(int position, String folder_name) {
 
-//                Intent intent = new Intent(activity, ListItemActivity.class);
-//                intent.putExtra("folder_name", folder_name);
-//                startActivity(intent);
-
                 activity.getSupportFragmentManager()
                         .beginTransaction()
                         .addToBackStack("")
-                        .add(R.id.content_frame, ListItemFragment.getInstance(folder_name))
+                        .add(R.id.content_frame, ListItemFragment.getInstance(folder_name,media))
                         .commit();
 
             }
@@ -112,7 +123,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void imgLoad() {
-        list.addAll(new ImagesLoader().getAllFolder(activity));
+        list.addAll(new ContentLoader().getAllFolder(activity,media));
         adapter.notifyDataSetChanged();
     }
 }

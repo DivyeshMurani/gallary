@@ -11,3 +11,4 @@ new OpenGalleryBuilder(MainActivity.this)
                 .build();
 ```
  
+ ![alt text](https://github.com/DivyeshMurani/gallary/blob/master/device-2019-11-17-120832.png)

@@ -13,7 +13,14 @@
         android:id="@+id/btn_open"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Open Gallery"
+        android:text="Open Video"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_open_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Open Image"
         android:textAllCaps="false" />
 
     <TextView

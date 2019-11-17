@@ -36,18 +36,37 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_open).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openGallery();
+                openGalleryVideo();
             }
         });
-        openGallery();
+
+        findViewById(R.id.btn_open_one).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGalleryImage();
+            }
+        });
+
+
+        openGalleryVideo();
 
         init();
     }
 
-    private void openGallery() {
+    private void openGalleryVideo() {
 
         new OpenGalleryBuilder(MainActivity.this)
                 .showContent(Constance.Key.VIDEO)
+                .selectionLimit(10)
+                .build();
+
+
+    }
+
+    private void openGalleryImage() {
+
+        new OpenGalleryBuilder(MainActivity.this)
+                .showContent(Constance.Key.IMAGE)
                 .selectionLimit(10)
                 .build();
 

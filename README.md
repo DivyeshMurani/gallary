@@ -10,5 +10,7 @@ new OpenGalleryBuilder(MainActivity.this)
                 .selectionLimit(10)
                 .build();
 ```
+
+<img src="https://github.com/DivyeshMurani/gallary/blob/master/device-2019-11-17-120832.png" width="30%">
+
  
- ![alt text](https://github.com/DivyeshMurani/gallary/blob/master/device-2019-11-17-120832.png)

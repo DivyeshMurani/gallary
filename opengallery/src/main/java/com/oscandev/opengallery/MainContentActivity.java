@@ -20,6 +20,7 @@ import com.oscandev.opengallery.adapter.BaseRecyclerViewAdapter;
 import com.oscandev.opengallery.adapter.FolderLoadAdapter;
 import com.oscandev.opengallery.frags.HomeFragment;
 
+import com.oscandev.opengallery.frags.ListItemFragment;
 import com.oscandev.opengallery.helper.Constance;
 import com.oscandev.opengallery.helper.ImagesLoader;
 
@@ -51,10 +52,19 @@ public class MainContentActivity extends AppCompatActivity {
         Intent intent = getIntent();
         showContent = intent.getIntExtra(Constance.Key.KEY_SHOW_CONTENT, Constance.Key.IMAGE);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.content_frame, HomeFragment.getInstance(showContent))
-                .commit();
+        if (showContent == Constance.Key.BOTH) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.content_frame, ListItemFragment.getInstance(Constance.Key.VALUE_ALL_MEDIA, Constance.Key.BOTH))
+                    .commit();
+        } else {
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.content_frame, HomeFragment.getInstance(showContent))
+                    .commit();
+
+        }
 
     }
 

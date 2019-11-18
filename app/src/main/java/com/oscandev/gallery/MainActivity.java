@@ -47,9 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         openGalleryVideo();
-
         init();
     }
 
@@ -75,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

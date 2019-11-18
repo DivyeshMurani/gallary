@@ -79,7 +79,6 @@ public class ListItemFragment extends BaseFragment {
         media = bundle.getInt("media", Constance.Key.IMAGE);
         activity.setToolbarTitle(folder_name);
 
-
         initRecyclerView();
 
         view.findViewById(R.id.rl_done).setOnClickListener(new View.OnClickListener() {
@@ -189,6 +188,8 @@ public class ListItemFragment extends BaseFragment {
     private void ImageLoad() {
         if (folder_name.equals("All")) {
             list.addAll(new ContentLoader().getAllImages(activity, media));
+        } else if (folder_name.equals(Constance.Key.VALUE_ALL_MEDIA)) {
+//            list.addAll(new ContentLoader().getAllImages(activity, media));
         } else {
             list.addAll(new ContentLoader().getFolderItemContent(activity, folder_name, media));
         }

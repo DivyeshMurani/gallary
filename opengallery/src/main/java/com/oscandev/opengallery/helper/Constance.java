@@ -1,5 +1,6 @@
 package com.oscandev.opengallery.helper;
 
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -15,14 +16,15 @@ public class Constance {
         public static final String KEY_SIZE = "size";
         public static final String KEY_LIMIT = "limit";
         public static final String KEY_SHOW_CONTENT = "show_content";
+        public static final String VALUE_ALL_MEDIA = "all_media";
 
 
         public static final int IMAGE = 0;
         public static final int VIDEO = 1;
+        public static final int BOTH = 2;
     }
 
     static class MediaStoreQuery {
-
 
         static String[] getMediaAllFolder(int media) {
             ArrayList<String[]> list = new ArrayList<>();
@@ -63,6 +65,8 @@ public class Constance {
                     MediaStore.Video.Media.DATE_TAKEN
             };
 
+
+
             list.add(imageColumns);
             list.add(videoColumns);
 
@@ -76,6 +80,12 @@ public class Constance {
 
             return list.get(media);
         }
+
+
+
+
     }
+
+
 
 }

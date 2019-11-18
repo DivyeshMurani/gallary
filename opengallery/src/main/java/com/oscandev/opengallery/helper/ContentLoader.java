@@ -1,7 +1,10 @@
 package com.oscandev.opengallery.helper;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -14,15 +17,6 @@ import io.reactivex.functions.Function;
 
 public class ContentLoader {
 
-
-    //    final String[] columns = {
-//            MediaStore.Images.Media.DATA,
-//            MediaStore.Images.Media._ID,
-//            MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-//            MediaStore.Images.Media.DISPLAY_NAME
-//    };//get all columns of type images
-//
-//
     final String orderBy = MediaStore.Images.Media.DATE_TAKEN;//order data by date
 
     public void build(Context context) {
@@ -142,8 +136,8 @@ public class ContentLoader {
 
         for (int i = 0; i < imagecursor.getCount(); i++) {
             imagecursor.moveToPosition(i);
-            int displayNameId = imagecursor.getColumnIndex(columns[2]);
-            String strFolderName = imagecursor.getString(displayNameId);
+//            int displayNameId = imagecursor.getColumnIndex(columns[2]);
+//            String strFolderName = imagecursor.getString(displayNameId);
 
             int dataColumnIndex = imagecursor.getColumnIndex(columns[0]);//get column index
             String dataColumn = imagecursor.getString(dataColumnIndex);
@@ -151,6 +145,40 @@ public class ContentLoader {
 
         }
         return list;
+    }
+
+    public static void getAllMedia(Activity activity){
+
+        String[] columns = { MediaStore.Files.FileColumns._ID,
+                MediaStore.Files.FileColumns.DATA,
+                MediaStore.Files.FileColumns.DATE_ADDED,
+                MediaStore.Files.FileColumns.MEDIA_TYPE,
+                MediaStore.Files.FileColumns.MIME_TYPE,
+                MediaStore.Files.FileColumns.TITLE,
+        };
+        String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
+                + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE
+                + " OR "
+                + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
+                + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+        final String orderBy = MediaStore.Files.FileColumns.DATE_ADDED;
+        Uri queryUri = MediaStore.Files.getContentUri("external");
+
+        @SuppressWarnings("deprecation")
+        Cursor imagecursor = activity.managedQuery(queryUri,
+                columns,
+                selection,
+                null, // Selection args (none).
+                MediaStore.Files.FileColumns.DATE_ADDED + " DESC" // Sort order.
+        );
+
+
+        int image_column_index = imagecursor.getColumnIndex(MediaStore.Files.FileColumns._ID);
+        int count = imagecursor.getCount();
+        Bitmap[] thumbnails = new Bitmap[count];
+        String [] arrPath = new String[count];
+        int[] typeMedia = new int[count];
+
     }
 
     private void loadWithRX() {

@@ -1,7 +1,7 @@
 package com.oscandev.opengallery.adapter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +48,7 @@ public class ItemShowAdapter extends BaseRecyclerViewAdapter {
 
 
         RequestOptions requestOptions = new RequestOptions();
-        requestOptions.placeholder(R.drawable.drawable_lighter_gray);
+        requestOptions.placeholder(R.drawable.person_placeholder);
 //        requestOptions.error(R.drawable.ic_error);
 
         Glide.with(holder.img)

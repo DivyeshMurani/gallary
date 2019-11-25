@@ -1,7 +1,7 @@
 package com.oscandev.opengallery;
 
 import android.app.Activity;
-import android.content.Context;
+
 import android.content.Intent;
 import android.util.Log;
 
